@@ -26,10 +26,11 @@ public class DownloadImageActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         // Always call super class for necessary
         // initialization/implementation.
-        // @@ TODO -- you fill in here.
+        super.onCreate(savedInstanceState);
 
         // Get the URL associated with the Intent data.
-        // @@ TODO -- you fill in here.
+        // @@ you fill in here.
+        Uri url = getIntent().getData();
 
         // Download the image in the background, create an Intent that
         // contains the path to the image file, and set this as the
@@ -41,5 +42,11 @@ public class DownloadImageActivity extends Activity {
         // methods should be called in the background thread.  See
         // http://stackoverflow.com/questions/20412871/is-it-safe-to-finish-an-android-activity-from-a-background-thread
         // for more discussion about this topic.
+        DownloadUtils.downloadImage(this, url);
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK, returnIntent);
+
     }
+
+
 }
