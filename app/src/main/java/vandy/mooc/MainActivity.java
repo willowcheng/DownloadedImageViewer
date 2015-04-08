@@ -42,7 +42,7 @@ public class MainActivity extends LifecycleLoggingActivity {
      * doesn't specify otherwise.
      */
     private Uri mDefaultUrl =
-        Uri.parse("http://www.dre.vanderbilt.edu/~schmidt/robot.png");
+            Uri.parse("http://www.dre.vanderbilt.edu/~schmidt/robot.png");
 
     /**
      * Hook method called when a new instance of Activity is created.
@@ -75,7 +75,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         try {
             // Hide the keyboard.
             hideKeyboard(this,
-                         mUrlEditText.getWindowToken());
+                    mUrlEditText.getWindowToken());
 
             // Call the makeDownloadImageIntent() factory method to
             // create a new Intent to an Activity that can download an
@@ -83,14 +83,18 @@ public class MainActivity extends LifecycleLoggingActivity {
             // it's an Intent that's implemented by the
             // DownloadImageActivity.
             // @@ you fill in here.
-            Intent intent = makeDownloadImageIntent(getUrl());
+            Intent intent = null;
+            Uri uri = getUrl();
+            if (uri != null)
+                intent = makeDownloadImageIntent(uri);
 
             // Start the Activity associated with the Intent, which
             // will download the image and then return the Uri for the
             // downloaded image file via the onActivityResult() hook
             // method.
             // @@ you fill in here.
-            startActivityForResult(intent, DOWNLOAD_IMAGE_REQUEST);
+            if (intent != null)
+                startActivityForResult(intent, DOWNLOAD_IMAGE_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,7 +140,7 @@ public class MainActivity extends LifecycleLoggingActivity {
                     "Downloading is failed",
                     Toast.LENGTH_SHORT).show();
         }
-    }    
+    }
 
     /**
      * Factory method that returns an implicit Intent for viewing the
@@ -145,8 +149,8 @@ public class MainActivity extends LifecycleLoggingActivity {
     private Intent makeGalleryIntent(String pathToImageFile) {
         // Create an intent that will start the Gallery app to view
         // the image.
-    	// you fill in here, replacing "null" with the proper
-    	// code.
+        // you fill in here, replacing "null" with the proper
+        // code.
         Intent galleryIntent = new Intent(Intent.ACTION_VIEW);
         if (pathToImageFile != null) {
 
@@ -165,10 +169,10 @@ public class MainActivity extends LifecycleLoggingActivity {
      */
     private Intent makeDownloadImageIntent(Uri url) {
         // Create an intent that will download the image from the web.
-    	// you fill in here, replacing "null" with the proper
-    	// code.
+        // you fill in here, replacing "null" with the proper
+        // code.
         Intent imageIntent = new Intent(Intent.ACTION_WEB_SEARCH);
-        if(url != null){
+        if (url != null) {
             imageIntent = new Intent(Intent.ACTION_WEB_SEARCH, url);
             Log.i(TAG, "Image Intent Action:" + imageIntent.getAction());
         }
@@ -197,10 +201,10 @@ public class MainActivity extends LifecycleLoggingActivity {
             return url;
         else {
             Toast.makeText(this,
-                           "Invalid URL",
-                           Toast.LENGTH_SHORT).show();
+                    "Invalid URL",
+                    Toast.LENGTH_SHORT).show();
             return null;
-        } 
+        }
     }
 
     /**
@@ -210,9 +214,9 @@ public class MainActivity extends LifecycleLoggingActivity {
     public void hideKeyboard(Activity activity,
                              IBinder windowToken) {
         InputMethodManager mgr =
-            (InputMethodManager) activity.getSystemService
-            (Context.INPUT_METHOD_SERVICE);
+                (InputMethodManager) activity.getSystemService
+                        (Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(windowToken,
-                                    0);
+                0);
     }
 }

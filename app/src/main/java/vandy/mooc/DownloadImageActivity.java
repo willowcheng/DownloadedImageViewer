@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * An Activity that downloads an image, stores it in a local file on
@@ -30,7 +31,7 @@ public class DownloadImageActivity extends Activity {
 
         // Get the URL associated with the Intent data.
         // @@ you fill in here.
-        Uri url = getIntent().getData();
+        final Uri url = getIntent().getData();
 
         // Download the image in the background, create an Intent that
         // contains the path to the image file, and set this as the
@@ -42,9 +43,18 @@ public class DownloadImageActivity extends Activity {
         // methods should be called in the background thread.  See
         // http://stackoverflow.com/questions/20412871/is-it-safe-to-finish-an-android-activity-from-a-background-thread
         // for more discussion about this topic.
-        DownloadUtils.downloadImage(this, url);
-        Intent returnIntent = new Intent();
-        setResult(RESULT_OK, returnIntent);
+        Log.d(TAG, "onCreat()");
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "In Runnable");
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("pathToImageFile", DownloadUtils.downloadImage(getApplicationContext(), url).toString());
+                setResult(RESULT_OK, returnIntent);
+                finish();
+            }
+        };
+        new Thread(runnable).start();
 
     }
 
